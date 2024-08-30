@@ -26,6 +26,7 @@ jobs:
       - uses: ondemandenv/build@main
         with:
           aws_credentials: ${{github.event.inputs.aws_credentials}}
+          trigger_message: ${{github.event.inputs.message}}
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           ODMD_buildId: coffeeShopOrderProcessor
