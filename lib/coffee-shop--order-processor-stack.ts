@@ -86,7 +86,7 @@ export class CoffeeShopOrderProcessorStack extends cdk.Stack {
         const definition = new tasks.DynamoGetItem(this, 'DynamoDB Get Shop status', {
             table: configTable,
             key: {
-                pk: DynamoAttributeValue.fromString('config')
+                PK: DynamoAttributeValue.fromString('config')
             },
             resultPath: getStoreStatusPath,
         }).next(
@@ -135,7 +135,7 @@ export class CoffeeShopOrderProcessorStack extends cdk.Stack {
                                     new tasks.DynamoUpdateItem(this, 'Generate Order Number', {
                                             table: countingTable,
                                             key: {
-                                                pk: DynamoAttributeValue.fromString('orderID') // Replace with actual key value
+                                                PK: DynamoAttributeValue.fromString('orderID') // Replace with actual key value
                                             },
                                             updateExpression: 'set IDvalue = IDvalue + :val',
                                             expressionAttributeValues: {
