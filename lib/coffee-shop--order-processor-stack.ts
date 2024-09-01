@@ -6,7 +6,6 @@ import {DynamoAttributeValue, DynamoReturnValues} from "aws-cdk-lib/aws-stepfunc
 import {Construct} from "constructs";
 import {Duration} from "aws-cdk-lib";
 import {
-    CoffeeShopOrderProcessorCdk,
     CoffeeShopOrderProcessorEnver
 } from "@ondemandenv/odmd-contracts/lib/repos/coffee-shop/coffee-shop-order-processor-cdk";
 import {OndemandContracts} from "@ondemandenv/odmd-contracts";
@@ -26,8 +25,7 @@ export class CoffeeShopOrderProcessorStack extends cdk.Stack {
         const configTable = Table.fromTableName(this, 'configTable', myEnver.configTableName.getSharedValue(this))
         const countingTable = Table.fromTableName(this, 'countTableName', myEnver.countTableName.getSharedValue(this))
 
-
-        const stateMachineName = 'stateMachineName-' + myEnver.node.id
+        const stateMachineName = myEnver.owner.buildId + '-' + myEnver.targetRevision.value
 
         const emitOrderFinished = new tasks.EventBridgePutEvents(this, 'Emit - order finished', {
             entries: [
