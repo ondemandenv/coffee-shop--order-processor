@@ -25,7 +25,7 @@ export class CoffeeShopOrderProcessorStack extends cdk.Stack {
         const configTable = Table.fromTableName(this, 'configTable', myEnver.configTableName.getSharedValue(this))
         const countingTable = Table.fromTableName(this, 'countTableName', myEnver.countTableName.getSharedValue(this))
 
-        const stateMachineName = myEnver.owner.buildId + '-' + myEnver.targetRevision.value
+        const stateMachineName = myEnver.owner.buildId + '-' + myEnver.targetRevision.value + '-order_processor'
 
         const emitOrderFinished = new tasks.EventBridgePutEvents(this, 'Emit - order finished', {
             entries: [
