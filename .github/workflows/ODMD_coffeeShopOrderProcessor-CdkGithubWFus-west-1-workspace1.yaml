@@ -1,6 +1,6 @@
 #ODMD GENERATED WORKFLOW, don't change unless you are sure
 
-name: ODMD_coffeeShopOrderProcessor-CdkGithubWFus-west-1-workplace2
+name: ODMD_coffeeShopOrderProcessor-CdkGithubWFus-west-1-workspace1
 on:
   workflow_dispatch:
     inputs:
@@ -33,6 +33,6 @@ jobs:
           ODMD_workDirs: .
           ODMD_buildType: CdkGithubWF
           ODMD_awsRegion: us-west-1
-          ODMD_SECRETS: ${{ secrets['ODMD_SECRETS_ODMD_coffeeShopOrderProcessor_CdkGithubWFus_west_1_workplace2'] }}
+          ODMD_SECRETS: ${{ secrets['ODMD_SECRETS_ODMD_coffeeShopOrderProcessor_CdkGithubWFus_west_1_workspace1'] }}
 
 #
