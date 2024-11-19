@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import {OndemandContracts} from "@ondemandenv/odmd-contracts";
 import {StackProps} from "aws-cdk-lib";
-import {ContractsEnverCdk} from "@ondemandenv/odmd-contracts/lib/odmd-model/contracts-enver-cdk";
 import {CoffeeShopOrderProcessorStack} from "../lib/coffee-shop--order-processor-stack";
+import {OndemandContractsSandbox} from "@ondemandenv/odmd-contracts-sandbox";
+import {OdmdEnverCdk} from "@ondemandenv/contracts-lib-base";
 
 const app = new cdk.App();
 
@@ -24,10 +24,9 @@ async function main() {
         }
     } as StackProps;
 
-    new OndemandContracts(app)
+    new OndemandContractsSandbox(app)
 
-
-    const targetEnver = OndemandContracts.inst.getTargetEnver() as ContractsEnverCdk
+    const targetEnver = OndemandContractsSandbox.inst.getTargetEnver() as OdmdEnverCdk
 
     new CoffeeShopOrderProcessorStack(app, targetEnver.getRevStackNames()[0], props)
 }
