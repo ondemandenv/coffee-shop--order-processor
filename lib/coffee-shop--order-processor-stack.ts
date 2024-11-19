@@ -5,20 +5,17 @@ import {DefinitionBody, InputType, IntegrationPattern, Timeout} from "aws-cdk-li
 import {DynamoAttributeValue, DynamoReturnValues} from "aws-cdk-lib/aws-stepfunctions-tasks";
 import {Construct} from "constructs";
 import {Duration} from "aws-cdk-lib";
-import {
-    CoffeeShopOrderProcessorEnver
-} from "@ondemandenv/odmd-contracts/lib/repos/coffee-shop/coffee-shop-order-processor-cdk";
-import {OndemandContracts} from "@ondemandenv/odmd-contracts";
 import {EventBus, Rule} from "aws-cdk-lib/aws-events";
 import {Table} from "aws-cdk-lib/aws-dynamodb";
 import {SfnStateMachine} from "aws-cdk-lib/aws-events-targets";
+import {CoffeeShopOrderProcessorEnver, OndemandContractsSandbox} from "@ondemandenv/odmd-contracts-sandbox";
 
 export class CoffeeShopOrderProcessorStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
 
-        const myEnver = OndemandContracts.inst.getTargetEnver() as CoffeeShopOrderProcessorEnver
+        const myEnver = OndemandContractsSandbox.inst.getTargetEnver() as CoffeeShopOrderProcessorEnver
         const eventBus = EventBus.fromEventBusName(this, 'eventBus', myEnver.eventBus.getSharedValue(this))
         const source = myEnver.eventSrc.getSharedValue(this) as string
 
@@ -113,7 +110,7 @@ export class CoffeeShopOrderProcessorStack extends cdk.Stack {
                                     entries: [{
                                         eventBus,
                                         source,
-                                        detailType: OndemandContracts.inst.coffeeShopOrderProcessorCdk.WORKFLOW_STARTED,
+                                        detailType: OndemandContractsSandbox.inst.coffeeShopOrderProcessorCdk.WORKFLOW_STARTED,
 
                                         detail: {
                                             type: InputType.OBJECT,
