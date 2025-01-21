@@ -14,7 +14,6 @@ export class CoffeeShopOrderProcessorStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-
         const myEnver = OndemandContractsSandbox.inst.getTargetEnver() as CoffeeShopOrderProcessorEnver
         const eventBus = EventBus.fromEventBusName(this, 'eventBus', myEnver.eventBus.getSharedValue(this))
         const source = myEnver.eventSrc.getSharedValue(this) as string
