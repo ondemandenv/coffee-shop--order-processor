@@ -1,46 +1,45 @@
-#ODMD GENERATED WORKFLOW, don't change unless you are sure
+#ODMD GENERATED WORKFLOW, DO NOT change unless you are sure.
 
 name: ODMD_coffeeShopOrderProcessor-CdkGithubWFus-west-1-workspace1
 on:
   workflow_dispatch:
     inputs:
-      aws_credentials:
-        type: string
-        required: false
-        default: ''
-        description: | 
-          Your AWS credentials in the format:
-          [workspace1_Role/Profile]
-          aws_access_key_id=01234_id
-          aws_secret_access_key=56689_secret
-          aws_session_token=token0123456789
       message:
         type: string
         required: false
         default: ''
         description: 'additional message'
-      ghWflPpStackName:
-        type: string
-        required: false
-        default: ''
-        description: 'the stack to reload, ignored by default'
 jobs:
   odmd_job:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write # Assuming other steps need this
+      id-token: write # For AWS role assumption
+      
+      actions: read
+      checks: read
+      deployments: read
+      issues: read
+      packages: write
+      pull-requests: read
+      statuses: read
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
-      
-      - uses: ondemandenv/wflact-resolvEnvars@main
+
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws_credentials: ${{github.event.inputs.aws_credentials}}
+          role-to-assume: 'arn:aws:iam::590184130740:role/coffeeShopOrderProcessor/coffeeShopOrderProcessor-us-west-1590184130740-buildRole'
+          aws-region: us-west-1
+
+      - uses: ondemandenv/wflact-resolvEnvars@ondemandenv
+        with:
           trigger_message: ${{github.event.inputs.message}}
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ODMD_buildId: coffeeShopOrderProcessor
           ODMD_awsRegion: us-west-1
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ODMD_buildId: coffeeShopOrderProcessor
           ODMD_SECRETS: ${{ secrets['ODMD_SECRETS_ODMD_coffeeShopOrderProcessor_CdkGithubWFus_west_1_workspace1'] }}
       
       - name: run enver local script
@@ -51,6 +50,7 @@ jobs:
             cd "${{ env.ODMD_work_dir }}"
           else
             echo "ODMD_work_dir is empty, staying in current directory"
+            ls -ltarh
           fi
           
           pwd
@@ -64,13 +64,13 @@ jobs:
           fi
           
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ODMD_buildId: coffeeShopOrderProcessor
           ODMD_SECRETS: ${{ secrets['ODMD_SECRETS_ODMD_coffeeShopOrderProcessor_CdkGithubWFus_west_1_workspace1'] }}      
           
-      - uses: ondemandenv/wflact-buildProduces@main
+      - uses: ondemandenv/wflact-buildProduces@ondemandenv
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ODMD_buildId: coffeeShopOrderProcessor
           ODMD_SECRETS: ${{ secrets['ODMD_SECRETS_ODMD_coffeeShopOrderProcessor_CdkGithubWFus_west_1_workspace1'] }}
 
